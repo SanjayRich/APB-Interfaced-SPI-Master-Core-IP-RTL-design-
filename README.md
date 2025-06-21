@@ -1,0 +1,1 @@
+# APB-Interfaced-SPI-Master-Core-IP-RTL-design-
