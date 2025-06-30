@@ -1,80 +1,85 @@
-module baud_rate_generator (
-    input PCLK,             
-    input PRESETn,                       
-    input spiswai,          
-    input [1:0]  spi_mode,         
-    input [2:0]  spr,              
-    input [2:0]  sppr,                
-    input cpol,           
-    input  cphase,
-    input  ss,            
-
-    output reg sclk,             
-    output BaudRateDivisor,  
-    output reg   flag_low,         
-    output reg   flag_high,        
-    output reg   flags_low,        
-    output reg   flags_high        
+module baudrate_generator(
+    input PCLK,
+    input PRESETn,
+    input [1:0] spi_mode,
+    input spiswai,
+    input [2:0] sppr,
+    input [2:0] spr,
+    input cpol,
+    input cpha,
+    input ss,
+    
+    
+   
+    
+    
+    output reg sclk,
+    output reg flag_low, 
+    output reg flag_high,
+    output reg flags_low, 
+    output reg flags_high,
+    output reg [11:0] baudratedivisor
 );
 
 reg [11:0] count;
-reg pre_sclk = 0;
 
-wire r_mode;
-wire w_mode;
-wire w1;
-wire w2;
-
-
-assign BaudRateDivisor = ( (sppr + 1 ) * 2^(spr+1) );
+wire w1, w2;
+assign w1 = (~ss) & (~spiswai) & ((spi_mode == 2'b00) || (spi_mode == 2'b01));
+xor g0(w2, cpol, cpha);
+wire pre_sclk = cpol;
 
 
 
-
-assign r_mode = (spi_mode == 2'b00);
-assign w_mode = (spi_mode == 2'b01);
-assign w1 = ( r_mode || w_mode);
-assign w2 = ( w1 && ~ss && ~spiswai);
-
-always@(posedge PCLK  or negedge PRESETn) 
-begin
-	if(!PRESETn) 
-		begin
-			count <= 12'b0;
-		end
-	else if (w2) 
-		begin
-			if(count == ( BaudRateDivisor -1'b1))
-				begin
-					count <=12'b0;
-				end
-			else
-				begin
-					count <= count +1'b1;
-				end
-		end
+always @(*) begin
+    baudratedivisor = (sppr + 1) * (1 << (spr + 1));
 end
 
 
-always@(posedge PCLK  or negedge PRESETn)
-begin
-if(!PRESETn) 
-		begin
-			count <= 12'b0;
-		end
-	else if (w2) 
-		begin
-			if(count == ( BaudRateDivisor -1'b1))
-				begin
-					sclk <= ~sclk;
-				end
-			else
-				begin
-					sclk <= sclk;
-				end
-		end
+// count
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn)
+        count <= 12'b0;
+    else
+        count <= w1? ((count==baudratedivisor-1'b1)?(12'b0):(count+1'b1)):(12'b0);
+end
+
+// SCLK
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) 
+        sclk <= pre_sclk; 
+    else 
+        sclk <= w1 ?((count==baudratedivisor-1'b1)?(~sclk):(sclk)):(pre_sclk); 
+end
+
+// flags_low 
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) 
+        flags_low <= 1'b0;
+    else 
+	flags_low <= w2? (flags_low):((sclk)?(1'b0):((count==baudratedivisor-2'b10)?(1'b1):(1'b0)));
+        end
+
+// flags_high
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) 
+        flags_high <= 1'b0;
+    else 
+	flags_high <= w2? ((sclk)?((count==baudratedivisor-2'b10)?(1'b1):(1'b0)):(1'b0)):(flags_high);
+	end
+// flag_low 
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) 
+        flag_low <= 1'b0;
+    else 
+        flag_low <= w2?(flag_low):((sclk)?(1'b0):((count==baudratedivisor-1'b1)?(1'b1):(1'b0)));
+end
+// flag_high
+always @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) 
+        flag_high <= 1'b0;
+    else 
+        flag_high <= w2?((sclk)?((count==baudratedivisor-1'b1)?(1'b1):(1'b0)):(1'b0)):(flag_high);
 end
 
 endmodule
-
 
