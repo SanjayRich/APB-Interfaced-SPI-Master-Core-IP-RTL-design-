@@ -64,7 +64,7 @@ always @(posedge PCLK or negedge PRESETn) begin
     if (!PRESETn) 
         flags_high <= 1'b0;
     else 
-	flags_high <= w2? ((sclk)?((count==baudratedivisor-2'b10)?(1'b1):(1'b0)):(1'b0)):(flags_high);
+	flags_high <= w2? ((!sclk)?((count==baudratedivisor-2'b10)?(1'b1):(1'b0)):(1'b0)):(flags_high);
 	end
 // flag_low 
 always @(posedge PCLK or negedge PRESETn) begin
@@ -82,4 +82,3 @@ always @(posedge PCLK or negedge PRESETn) begin
 end
 
 endmodule
-
