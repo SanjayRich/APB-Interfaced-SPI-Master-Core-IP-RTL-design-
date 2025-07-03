@@ -87,7 +87,7 @@ end
 always @(posedge PCLK or negedge PRESETn) begin
     if (!PRESETn) begin
         count  <= 3'b000;
-        count1 <= 3'b000;
+        count1 <= 3'b111;
     end else begin
         if (!ss) begin
             if (lsbfe) begin
@@ -116,7 +116,7 @@ always @(posedge PCLK or negedge PRESETn) begin
         end else begin
             // ss deasserted ? reset counters
             count  <= 3'b000;
-            count1 <= 3'b000;
+            count1 <= 3'b111;
         end
     end
 end
@@ -125,7 +125,7 @@ end
 always @(posedge PCLK or negedge PRESETn) begin
     if (!PRESETn) begin
         count2 <= 3'b000;
-        count3 <= 3'b000;
+        count3 <= 3'b111;
     end else begin
         if (!ss) begin
             if (lsbfe) begin
@@ -154,7 +154,7 @@ always @(posedge PCLK or negedge PRESETn) begin
         end else begin
             // ss deasserted ? reset counters
             count2 <= 3'b000;
-            count3 <= 3'b000;
+            count3 <= 3'b111;
         end
     end
 end
