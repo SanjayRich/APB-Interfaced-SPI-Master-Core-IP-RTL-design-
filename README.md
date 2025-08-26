@@ -97,12 +97,102 @@ clock edge detection flags. <br>
 
 
 BLOCK DIAGRAM<br>
-<img width="723" height="607" alt="image" src="https://github.com/user-attachments/assets/b4f5dbcb-ef25-4b78-a38a-3f0c3caa70a4" /> <br>
+<img width="465" height="390" alt="image" src="https://github.com/user-attachments/assets/2c940a53-4203-4c53-9922-22f2af3d8079" />
+ <br>
 WAVEFORM SIMULATION<br>
-<img width="1122" height="599" alt="image" src="https://github.com/user-attachments/assets/4cc5a986-dbe0-4c9e-ac96-c0ffbe20918b" />
+<img width="932" height="491" alt="image" src="https://github.com/user-attachments/assets/2c9d82e6-7e74-49ac-bfb7-407e536ec18d" />
+
 <br>
 GATE-LEVEL NET LIST<br>
-<img width="1222" height="647" alt="image" src="https://github.com/user-attachments/assets/64aeaa5d-7602-4639-a850-fe7fcf8dbe83" />
+<img width="1442" height="734" alt="image" src="https://github.com/user-attachments/assets/45187827-ff7f-4eaf-8c46-ef3c68e6fb83" />
+
  <br>
+
+
+# 3.4 SLAVE – SELECT Control 
+
+The Slave Select (SS) Control Module is responsible for 
+managing the slave selection mechanism in SPI master 
+mode. It ensures correct assertion and deassertion of the SS 
+signal, which is critical for initiating and terminating 
+communication with slave devices.  <br>
+
+
+
+BLOCK DIAGRAM<br>
+<img width="866" height="407" alt="image" src="https://github.com/user-attachments/assets/728f2067-2cb0-4799-a60c-1b3bd3683d9d" /><br>
+WAVEFORM SIMULATION<br>
+<img width="1144" height="605" alt="image" src="https://github.com/user-attachments/assets/7d703f04-cfd2-4ad8-aec4-fd4f7f4bbc83" /><br>
+GATE-LEVEL NET LIST<br>
+<img width="1329" height="708" alt="image" src="https://github.com/user-attachments/assets/b4889181-8dde-461f-8301-ecedb9136c88" /> <br>
+
+
+# 4. Top Module Integration and Simulation Results.
+
+The Top Module integrates all the individual RTL blocks of the 
+SPI Master IP core into a unified design. It connects the 
+following modules: <br>
+• apb_slave_interface — Handles APB protocol signals and 
+maps register accesses. <br> 
+• baudrate_generator — Generates SPI clock based on 
+configured prescaler. <br> 
+• shift_register — Handles serial data shifting for both 
+MOSI and MISO lines, with LSB/MSB first support. <br> 
+• slave_select — Manages selection of the slave device 
+using a programmable signal. <br>
+
+BLOCK DIAGRAM  AND CONNECTION WITH SUB 
+MODULES:
+
+<img width="552" height="269" alt="image" src="https://github.com/user-attachments/assets/75a01640-2d9c-4b64-8347-fb1f5b9e5624" /> <br>
+
+To verify the rtl design I chose Cphase as 1 and cpol as 0 and lsfbe as 0 (which means it will send data serially from msb bit and output is sampled during negative edge of the SCLK)<br>
+
+In first step we configure the registers of SPI using apb slave interface:<br>
+SPI_CR1 = 8'h1C,<br>
+SPI_CR2 = 8'h00, <br>
+SPI_BR =  8'h00   <br>
+
+Next step we modify the data register with help of PWRITE signal.<br>
+For Data transfer:  
+ SPI_DR = 8'hA9. 
+ <br>
+All the Registers are configured by PADDR , PWRITE and 
+PWDATA. Once the send_data is enabled the Value from 
+SPI_DR is moved into mosi_data and if ss is active low then 
+this data is serially transmitted into the slave through mosi. 
+ <br>
+Once the receive_data is enabled the miso serially 
+transmitted into miso_data and further moved into SPI_DR, 
+which can be read through PRDATA. 
+ <br>
+So I am driving a value of x90 from slave side which is read 
+from the PRDATA in apb_slave_interface 
+Also the data xA9 is Transmitted serially to the slave through 
+mosi 
+<br>
+
+<img width="1220" height="644" alt="image" src="https://github.com/user-attachments/assets/553bd6e3-286c-4683-b755-420ed2ec10f6" />
+<br>
+
+
+GATE level Net list for top module: <br>
+
+<img width="1325" height="692" alt="image" src="https://github.com/user-attachments/assets/3f932aed-1bba-4c2b-b8aa-98ad69e75e6b" /> <br>
+
+# 5 CONCLUSION:
+
+The APB-interfaced SPI Master IP core was successfully 
+designed, integrated, and simulated using Verilog HDL. 
+The modular architecture allowed clean separation of 
+key functional blocks—APB slave interface, baud rate 
+generator, shift register, and slave select control.
+<br>
+This project not only deepened my understanding of SPI 
+communication and bus interfacing but also provided 
+hands-on experience in RTL design, module integration, 
+and functional verification. The successful completion of 
+this IP core marks a significant milestone in my journey 
+toward mastering VLSI design.
 
 
