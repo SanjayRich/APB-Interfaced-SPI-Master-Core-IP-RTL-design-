@@ -1,7 +1,7 @@
 # APB-Interfaced-SPI-Master-Core-IP-RTL-design-
 
 
-# 1.INTRODUCTION 
+# 1. INTRODUCTION 
 This project focuses on the RTL design and verification of a 
 SPI Master IP core with an Advanced Peripheral Bus (APB) 
 interface, commonly used in ARM-based SoC designs. The 
