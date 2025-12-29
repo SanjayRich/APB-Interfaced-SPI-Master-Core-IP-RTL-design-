@@ -1,7 +1,6 @@
 # APB-Interfaced-SPI-Master-Core-IP-RTL-design-
 
-This repository contains SPI Communication Protocol interfaced with ARM APB (Advanced Peripheral Bus) digital circuit design, developed as part of my Summer Internship in Maven Silicon.
-All designs are implemented, simulated, and verified using ModelSim and Quartus Prime.
+
 
 
 # 1. INTRODUCTION 
