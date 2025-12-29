@@ -52,7 +52,7 @@ and CPHA (Clock Phase), SPI supports 4 modes.<br>
 
 ## 3. SUB BLOCK MICRO - ARCHITECTURE AND SIMULATION RESULTS 
 
-# **[3.1 APB SLAVE INTERFACE]**(.\APB_SLAVE_INTERFACE)
+**[3.1 APB SLAVE INTERFACE](./APB_SLAVE_INTERFACE)**
 
 The APB Slave Interface shown in the diagram below is a 
 module designed to allow communication between a 
@@ -68,7 +68,7 @@ GATE-LEVEL NET LIST<br>
 
 
 
-# 3.2 BAUD – RATE GENERATOR
+**[3.2 BAUD – RATE GENERATOR](./BAUD_RATE_GENERATOR)**
 
 This module is responsible for generating the Serial Clock 
 (SCLK) and associated timing flags required for SPI 
@@ -89,7 +89,7 @@ GATE-LEVEL NET LIST<br>
 
 
 
-# 3.3 SHIFT – REGISTER
+**[3.3 SHIFT – REGISTER](./SHIFT_REGISTER)**
 
 This block is responsible for serial transmission (MOSIdata) 
 and reception (MISObits) of 8-bit data over the SPI interface. 
@@ -111,7 +111,7 @@ GATE-LEVEL NET LIST<br>
  <br>
 
 
-# 3.4 SLAVE – SELECT Control 
+**[3.4 SLAVE – SELECT Control](./SLAVE_SELECT_CONTROL)** 
 
 The Slave Select (SS) Control Module is responsible for 
 managing the slave selection mechanism in SPI master 
@@ -129,7 +129,7 @@ GATE-LEVEL NET LIST<br>
 <img width="1329" height="708" alt="image" src="https://github.com/user-attachments/assets/b4889181-8dde-461f-8301-ecedb9136c88" /> <br>
 
 
-# 4. Top Module Integration and Simulation Results.
+**[4. Top Module Integration and Simulation Results.](./SPI_CORE_IP)**
 
 The Top Module integrates all the individual RTL blocks of the 
 SPI Master IP core into a unified design. It connects the 
