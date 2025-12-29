@@ -52,7 +52,7 @@ and CPHA (Clock Phase), SPI supports 4 modes.<br>
 
 ## 3. SUB BLOCK MICRO - ARCHITECTURE AND SIMULATION RESULTS 
 
-# 3.1 APB SLAVE INTERFACE
+# **[3.1 APB SLAVE INTERFACE]**(.\APB_SLAVE_INTERFACE)
 
 The APB Slave Interface shown in the diagram below is a 
 module designed to allow communication between a 
