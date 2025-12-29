@@ -111,7 +111,7 @@ GATE-LEVEL NET LIST<br>
  <br>
 
 
-**[3.4 SLAVE – SELECT Control](./SLAVE_SELECT_CONTROL)** 
+**[3.4 SLAVE – SELECT Control](./SPI_SLAVE_SELECT_CONTROL)** 
 
 The Slave Select (SS) Control Module is responsible for 
 managing the slave selection mechanism in SPI master 
